@@ -32,3 +32,4 @@ def update(user : str, password : str , new_user: str) -> str:
     except:
         print(f'log:[{dt.date}] - [{dt.time}]: Error no servidor')
 
+

@@ -17,14 +17,15 @@ def insert_user(user,password):
 def update_user(user, new):
     try:
         df.loc[df[df['user'] == user], 'password'] = new
-        df.to_json('./users.json', force_ascii=False,indent=4,orient='records')
+        df.to_json(DIR_PATH, force_ascii=False,indent=4,orient='records')
     except:
      return 'Inválido'
 def delete_user(user):
         try:
             df.loc[df['user'] == user, :] = None
-            df.dropna()
-            df.to_json('./users.json', force_ascii=False,indent=4,orient='records')
+            df.dropna(inplace= True)
+            df['id']= df['id'].astype(int)
+            df.to_json(DIR_PATH, force_ascii=False,indent=4,orient='records')
         except:
           return 'Inválido'
 
@@ -33,3 +34,6 @@ def find_by_user(user : str):
 
 
 print(df.loc[df['user'] == 'admin'])
+
+
+print(delete_user('samuca', '123'))
