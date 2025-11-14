@@ -1,37 +1,34 @@
-from database import db_users as db
+from users.jason import json as find_by_user
+from datetime import  datetime as d
 
-#Função para realizar o login
 def login(user: str, password: str) -> bool:
-    '''
-    Função para verificar se um login é válido.
-
-    Parâmetros: 
-        - user (str): nome do usuário
-        - password (str): senha do usuário
-    
-    Retorno: retornará um valor true ou false
-    '''
+   
     for k, v in db.items():
         if k == user and v == password:
             return True
     
+    df = find_by_user(user)
+    if df.loc[0,2] == password:
+
+      return True
+    
     return False
 
-#Função para redefinir a senha
-def resetPassword(user: str, new_password: str) -> str:
-    '''
-    Função para redefinir a senha do usuário.
 
-    Parâmetros:
-        - user (str): nome do usuário
-        - new_password (str): senha atualizada para registrar
+def resetPassword(user: str,password: str, new_password: str) -> str:
     
-    Retorno: Uma String confirmando ou recusando a modificação da senha
-    '''
-    if user in db:
+    if login(user, password):
         db[user] = new_password
         return 'Senha Alterada!'
     
     return 'Usuário Não Cadastrado!'
 
+def update(user : str, password : str , new_user: str) -> str:
+
+    try:
+        if login(user,password):
+            db[new_user] = db.pop(user)
+            return 'Usuário Atualizado'
+    except:
+        print(f'log:[{dt.date}] - [{dt.time}]: Error no servidor')
 
